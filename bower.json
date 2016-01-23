@@ -1,0 +1,37 @@
+{
+  "name": "whrami",
+  "description": "A text-based interactive fiction guessing game.",
+  "main": "",
+  "authors": [
+    "Simon Cross"
+  ],
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "python",
+    "aiohttp",
+    "if"
+  ],
+  "moduleType": [],
+  "homepage": "https://github.com/hodgestar/whrami",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/*.min.*",
+      "css": "dist/css/*.min.*",
+      "fonts": "dist/fonts/*"
+    },
+    "jquery": {
+      "js": "dist/*.min.*"
+    }
+  }
+}

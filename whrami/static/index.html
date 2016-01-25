@@ -15,8 +15,14 @@
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- jquery -->
+    <script type="text/javascript" src="vendor/jquery/js/jquery.min.js"></script>
+
     <!-- Custom styles for this template -->
     <link href="css/jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Whrami Javascript -->
+    <script type="text/javascript" src="js/whrami.js"></script>
   </head>
 
   <body>
@@ -33,19 +39,36 @@
         <h3 class="text-muted">Where am I?</h3>
       </div>
 
-      <div class="jumbotron">
+      <div id="whrami-splash-area" class="jumbotron">
         <h1>Where am I?</h1>
-        <p class="lead">An text-based interactive fiction guessing game.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Play!</a></p>
+        <p class="lead">A text-based interactive fiction guessing game.</p>
+        <p><a class="btn btn-lg btn-success whrami-play-btn" href="#"
+              role="button">Play!</a></p>
       </div>
 
-      <div class="row marketing">
+      <div id="whrami-play-area" class="row subject-matter hidden">
+        <!-- List of received messages -->
         <div class="col-lg-6">
-          <h4>Thing 1</h4>
+          <ul id="whrami-received-list" class="list-group">
+            <li class="list-group-item whrami-no-messages">
+                Nothing received yet. Please wait a moment ...
+            </li>
+          </ul>
         </div>
 
+        <!-- Form for sending messages -->
         <div class="col-lg-6">
-          <h4>Thing 2</h4>
+          <form id="whrami-publish-form" action="#">
+           <div class="form-group">
+             <div class="input-group">
+               <input type="text" class="form-control whrami-publish-text">
+               <span class="input-group-btn">
+                   <button class="btn btn-default whrami-publish-btn"
+                           type="button">Send</button>
+               </span>
+             </div>
+           </div>
+         </form>
         </div>
       </div>
 
@@ -54,5 +77,18 @@
       </footer>
 
     </div> <!-- /container -->
+
+    <script type="text/javascript">
+    $(function () {
+        var api_url = window.location.href.split("/")[2] + '/ws';
+        var api = new whrami.WhramiApi(api_url, {debug: true});
+        var recv = new whrami.WhramiReceiver(
+            api, $("#whrami-received-list"));
+        var pub = new whrami.WhramiPublisher(
+            api, $("#whrami-publish-form"));
+        var splash = new whrami.WhramiSplashArea(
+            api, $("#whrami-splash-area"), $("#whrami-play-area"));
+    });
+    </script>
   </body>
 </html>

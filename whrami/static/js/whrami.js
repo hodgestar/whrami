@@ -1,6 +1,6 @@
 (function (exports) {
 
-    function debug (d) {
+    function _debug (d) {
         console.log("DEBUG: " + d);
     };
 
@@ -148,7 +148,7 @@
 
         self.debug = function (content) {
             if (self.opts.debug) {
-                debug(content);
+                _debug(content);
             }
         }
 
@@ -178,37 +178,30 @@
         self.ws = {};
 
         self.ws.on_open = function () {
-            debug("Websocket connected.");
+            self.debug("Websocket connected.");
             self.callback('on_open');
         };
 
         self.ws.on_close = function () {
-            debug("Websocket disconnected.");
+            self.debug("Websocket disconnected.");
             self.callback('on_close');
         };
 
         self.ws.on_error = function (e) {
-            debug(e);
+            self.debug(e);
             self.callback('on_error', e);
         };
 
         self.ws.on_message = function (event) {
-            debug("Websocket message received: " + event.data);
+            self.debug("Websocket message received: " + event.data);
             var msg = JSON.parse(event.data);
             var callback_name = "handle_" + msg.etype;
             self.callback(callback_name, msg);
         };
 
         self.send_msg = function (msg) {
-            debug("Websocket message sent: " + JSON.stringify(msg));
+            self.debug("Websocket message sent: " + JSON.stringify(msg));
             self.socket.send(JSON.stringify(msg));
-        };
-
-        self.send_text = function (text) {
-            self.send_msg({
-              msg_type: "text",
-              context: text,
-            })
         };
 
         self.init();

@@ -1,7 +1,6 @@
 """ Whrami events. """
 
 import json
-import functools
 
 
 class WhramiEvent:

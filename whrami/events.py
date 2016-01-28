@@ -28,6 +28,10 @@ def parse_event(data):
     return WhramiEvent.from_json(data)
 
 
+def create_web_socket():
+    return WhramiEvent("create_web_socket")
+
+
 def close_web_socket():
     return WhramiEvent("close_web_socket")
 

@@ -7,6 +7,7 @@ import pkg_resources
 import aiohttp
 from aiohttp import web
 from . import events
+from . import dispatcher
 
 STATIC_FOLDER = pkg_resources.resource_filename(__name__, 'static')
 
@@ -27,7 +28,10 @@ class WebSocketView(web.View):
     @asyncio.coroutine
     def get(self):
         ws = web.WebSocketResponse()
+        dispatch = dispatcher.Dispatcher(ws)
         yield from ws.prepare(self.request)
+
+        dispatch.event(events.create_web_socket())
 
         while True:
             try:
@@ -38,19 +42,19 @@ class WebSocketView(web.View):
                 try:
                     event = events.parse_event(msg.data)
                 except:
-                    ws.send_str(events.close_web_socket.to_json())
-                    yield from ws.close()
-                    return ws
+                    event = events.close_web_socket()
+                    ws.send_str(event.to_json())
                 if event.etype == 'close_web_socket':
                     yield from ws.close()
-                    return ws
+                    break
                 if event.etype == 'user_input':
                     ws.send_str(event.to_json())  # echo to client
-                    ws.send_str(events.user_output("Got it.").to_json())
+                    dispatch.event(event)
             elif msg.tp == aiohttp.MsgType.error:
                 print('websocket connection closed with exception %s' %
                       ws.exception())
 
+        dispatch.event(events.close_web_socket())
         print('websocket connection closed')
         return ws
 

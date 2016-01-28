@@ -1,15 +1,24 @@
 """ Whrami aiohttp app. """
 
 import asyncio
+import os
+import pkg_resources
+
 import aiohttp
 from aiohttp import web
 from . import events
 
+STATIC_FOLDER = pkg_resources.resource_filename(__name__, 'static')
+
 
 class IndexView(web.View):
     """ Top-level view. """
+    @asyncio.coroutine
     def get(self):
-        return web.Response(body=b"Hello world.")
+        index = os.path.join(STATIC_FOLDER, 'index.html')
+        with open(index, 'rb') as f:
+            body = f.read()
+        return web.Response(body=body)
 
 
 class WebSocketView(web.View):
@@ -51,5 +60,5 @@ def create_app():
     app = web.Application()
     app.router.add_route('*', '/', IndexView)
     app.router.add_route('*', '/ws', WebSocketView)
-    app.router.add_static('/static/', 'whrami/static/')
+    app.router.add_static('/static/', STATIC_FOLDER)
     return app

@@ -40,6 +40,12 @@
         self.init = function () {
             var btn = self.$publish_form.find(".whrami-publish-btn");
             btn.on("click", self.on_publish);
+            var input = self.$publish_form.find(".whrami-publish-text");
+            input.on("keypress", function (event) {
+                if (event.key == "Enter") {
+                   self.on_publish();
+                }
+            });
         };
 
         self.post = function (msg) {
@@ -84,7 +90,8 @@
         };
 
         self.check_msg_overflow = function () {
-            self.$msg_list.find("li:visible:gt(20)").remove();
+            var $li = self.$msg_list.find("li:visible").slice(0, -10);
+            $li.remove();
         };
 
         self.check_no_msgs_li = function () {

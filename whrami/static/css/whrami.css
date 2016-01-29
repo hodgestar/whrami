@@ -1,0 +1,17 @@
+#whrami-received-list li.whrami-system-msg {
+  background-color: lightcyan;
+}
+
+#whrami-received-list li.whrami-error-msg {
+  background-color: lightcoral;
+}
+
+#whrami-received-list li.whrami-user-input-msg {
+  text-align: right;
+}
+
+#whrami-received-list li.whrami-user-output-msg {
+  text-align: left;
+  font-weight: bold;
+  color: black;
+}

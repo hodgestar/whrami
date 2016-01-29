@@ -105,9 +105,11 @@
         };
 
         self.append_msg = function (content, opts) {
-            // opts are for future formatting.
+            opts = opts || {};
+            var classes = opts.classes || [];
+            classes.push("list-group-item");
             self.$msg_list.append([
-              '<li class="list-group-item">',
+              '<li class="', classes.join(" "), '">',
               content,
               '</li>',
             ].join(""));
@@ -116,26 +118,33 @@
         };
 
         self.on_open = function () {
-            // TODO: format with opts
-            self.append_msg("Connected.", {});
+            self.append_msg("Connected.", {
+              classes: ["whrami-system-msg"],
+            });
         };
 
         self.on_close = function () {
-            // TODO: format with opts
-            self.append_msg("Disconnected.", {});
+            self.append_msg("Disconnected.", {
+              classes: ["whrami-system-msg"],
+            });
         };
 
         self.on_error = function (msg) {
-            // TODO: format with opts
-            self.append_msg("Error " + JSON.stringify(msg), {});
+            self.append_msg("Error " + JSON.stringify(msg), {
+              classes: ["whrami-error-msg"],
+            });
         };
 
         self.handle_user_input = function (msg) {
-            self.append_msg(msg.content, {});
+            self.append_msg(msg.content, {
+              classes: ["whrami-user-input-msg"],
+            });
         };
 
         self.handle_user_output = function (msg) {
-            self.append_msg(msg.content, {});
+            self.append_msg(msg.content, {
+              classes: ["whrami-user-output-msg"],
+            });
         };
 
         self.init();

@@ -36,7 +36,7 @@ class WebSocketView(web.View):
         while True:
             try:
                 msg = yield from ws.receive()
-            except web.WSClientDisconnectError:
+            except:
                 break
             if msg.tp == aiohttp.MsgType.text:
                 try:

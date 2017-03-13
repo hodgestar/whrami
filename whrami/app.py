@@ -19,7 +19,8 @@ class IndexView(web.View):
         index = os.path.join(STATIC_FOLDER, 'index.html')
         with open(index, 'rb') as f:
             body = f.read()
-        return web.Response(body=body)
+        return web.Response(
+            body=body, content_type='text/html', charset='utf-8')
 
 
 class WebSocketView(web.View):
